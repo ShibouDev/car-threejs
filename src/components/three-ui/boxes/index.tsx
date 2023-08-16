@@ -1,8 +1,7 @@
 //@ts-nocheck
-import { useRef, useState, useEffect } from "react"
-import { useFrame, useLoader } from "@react-three/fiber"
-import { Vector3, TextureLoader, RepeatWrapping, LinearSRGBColorSpace } from "three"
-import { MeshReflectorMaterial } from "@react-three/drei";
+import { useRef, useState } from "react"
+import { useFrame } from "@react-three/fiber"
+import { Vector3 } from "three"
 
 export const Box = ({ color }: { color: any }) => {
     const box = useRef<any>()
@@ -27,20 +26,6 @@ export const Box = ({ color }: { color: any }) => {
         setPosition(v)
         // return v
     }
-    const [roughness, normal] = useLoader(TextureLoader, [
-        "/textures/terrain-roughness.jpg",
-        "/textures/terrain-normal.jpg",
-    ]);
-    useEffect(() => {
-        [normal, roughness].forEach((t) => {
-            t.wrapS = RepeatWrapping;
-            t.wrapT = RepeatWrapping;
-            t.repeat.set(5, 5);
-            t.offset.set(0, 0);
-        });
-
-        normal.encoding = LinearSRGBColorSpace;
-    }, [normal, roughness]);
     const [position, setPosition] = useState<{ x: number, y: number, z: number }>(getInitialPosition())
 
     useFrame((state, delta) => {
@@ -58,12 +43,7 @@ export const Box = ({ color }: { color: any }) => {
     return (
         <mesh ref={box} scale={scale} castShadow>
             <boxGeometry args={[1, 1, 1]} />
-            <MeshReflectorMaterial
-                color={color}
-                envMapIntensity={0.15}
-                normalMap={normal}
-                normalScale={[0.15, 0.15]}
-                roughnessMap={roughness} />
+            <meshStandardMaterial color={color} envMapIntensity={0.15} />
         </mesh>
     )
 }
