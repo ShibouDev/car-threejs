@@ -4,7 +4,7 @@ import { useFrame, useLoader } from "@react-three/fiber";
 import { MeshReflectorMaterial } from "@react-three/drei";
 import { LinearSRGBColorSpace, RepeatWrapping, TextureLoader } from "three";
 
-export function Ground() {
+export const Ground = () => {
     const [roughness, normal] = useLoader(TextureLoader, [
         "/textures/terrain-roughness.jpg",
         "/textures/terrain-normal.jpg",
